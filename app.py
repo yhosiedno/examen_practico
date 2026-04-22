@@ -7,7 +7,7 @@ def get_db():
     conn = sqlite3.connect("inventario.db")
     conn.row_factory = sqlite3.Row
     return conn
-
+#aqui creamos la base de datos
 def crear_bd():
     conn = get_db()
     conn.execute("""
