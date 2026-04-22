@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-
 def get_db():
     conn = sqlite3.connect("inventario.db")
     conn.row_factory = sqlite3.Row
@@ -25,15 +24,12 @@ def crear_bd():
 
 crear_bd()
 
-
 @app.route('/')
 def index():
     conn = get_db()
     productos = conn.execute("SELECT * FROM productos").fetchall()
     conn.close()
-
     return render_template("index.html", productos=productos)
-
 
 @app.route('/agregar', methods=['GET', 'POST'])
 def agregar():
@@ -50,11 +46,9 @@ def agregar():
         )
         conn.commit()
         conn.close()
-
         return redirect('/')
 
     return render_template("agregar.html")
-
 
 @app.route('/editar/<int:id>', methods=['GET', 'POST'])
 def editar(id):
@@ -78,9 +72,7 @@ def editar(id):
 
     producto = conn.execute("SELECT * FROM productos WHERE id=?", (id,)).fetchone()
     conn.close()
-
     return render_template("editar.html", producto=producto)
-
 
 @app.route('/eliminar/<int:id>')
 def eliminar(id):
@@ -88,9 +80,7 @@ def eliminar(id):
     conn.execute("DELETE FROM productos WHERE id=?", (id,))
     conn.commit()
     conn.close()
-
     return redirect('/')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
