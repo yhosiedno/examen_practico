@@ -24,7 +24,13 @@ crear_bd()
 
 @app.route('/')
 def index():
-    return render_template("base.html")
+    conn = sqlite3.connect("inventario.db")
+    conn.row_factory = sqlite3.Row
+
+    productos = conn.execute("SELECT * FROM productos").fetchall()
+    conn.close()
+
+    return render_template("index.html", productos=productos)
 
 if __name__ == '__main__':
     app.run(debug=True)
