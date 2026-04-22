@@ -3,23 +3,22 @@ body {
     min-height: 100vh;
 }
 
-/* NAVBAR */
+
 .navbar {
     background: linear-gradient(90deg, #111827, #1f2937);
 }
 
-/* CARD */
 .card {
     border-radius: 15px;
 }
 
-/* HEADER */
+
 .card-header {
     background: linear-gradient(90deg, #2563eb, #3b82f6);
     color: white;
 }
 
-/* TABLA */
+
 .table thead {
     background: #111827;
     color: white;
@@ -29,7 +28,7 @@ body {
     background: #e0e7ff;
 }
 
-/* BOTONES */
+
 .btn {
     border-radius: 8px;
 }
