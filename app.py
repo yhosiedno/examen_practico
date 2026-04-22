@@ -24,48 +24,51 @@ def crear_bd():
 
 crear_bd()
 
+# LISTAR
 @app.route('/')
-def index():
+def listar():
     conn = get_db()
     productos = conn.execute("SELECT * FROM productos").fetchall()
     conn.close()
     return render_template("index.html", productos=productos)
 
-@app.route('/agregar', methods=['GET', 'POST'])
-def agregar():
+# REGISTRAR
+@app.route('/registrar', methods=['GET', 'POST'])
+def registrar():
     if request.method == 'POST':
-        nombre = request.form['nombre']
-        categoria = request.form['categoria']
-        precio = request.form['precio']
-        stock = request.form['stock']
-
         conn = get_db()
         conn.execute(
             "INSERT INTO productos (nombre, categoria, precio, stock) VALUES (?, ?, ?, ?)",
-            (nombre, categoria, precio, stock)
+            (
+                request.form['nombre'],
+                request.form['categoria'],
+                request.form['precio'],
+                request.form['stock']
+            )
         )
         conn.commit()
         conn.close()
         return redirect('/')
 
-    return render_template("agregar.html")
+    return render_template("registrar.html")
 
+# EDITAR
 @app.route('/editar/<int:id>', methods=['GET', 'POST'])
 def editar(id):
     conn = get_db()
 
     if request.method == 'POST':
-        nombre = request.form['nombre']
-        categoria = request.form['categoria']
-        precio = request.form['precio']
-        stock = request.form['stock']
-
         conn.execute("""
             UPDATE productos
             SET nombre=?, categoria=?, precio=?, stock=?
             WHERE id=?
-        """, (nombre, categoria, precio, stock, id))
-
+        """, (
+            request.form['nombre'],
+            request.form['categoria'],
+            request.form['precio'],
+            request.form['stock'],
+            id
+        ))
         conn.commit()
         conn.close()
         return redirect('/')
@@ -74,6 +77,7 @@ def editar(id):
     conn.close()
     return render_template("editar.html", producto=producto)
 
+# ELIMINAR
 @app.route('/eliminar/<int:id>')
 def eliminar(id):
     conn = get_db()
